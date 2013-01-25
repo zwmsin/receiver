@@ -1,0 +1,28 @@
+{
+  "name": "Receiver",
+  "launch_path": "/index.html",
+  "developer": {
+    "name": "chyblog",
+    "url": "http://www.chyblog.com"
+  },
+  "icons": {
+    "120": "/style/icons/Receiver.png"
+  },
+  "permissions": [
+    "background",
+    "backgroundservice",
+    "attention",
+    "contacts",
+    "settings",
+    "desktop-notification"
+  ],
+  "activities": {
+	  "pick": {
+	    "filters": {
+	      "type": ["image/png", "image/gif"]
+	    },
+	    "returnValue": true,
+	    "disposition": "inline"
+	  }
+  }
+}

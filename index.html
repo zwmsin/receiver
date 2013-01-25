@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="pragma" content="no-cache">
+		<title>Test Receiver</title>
+		<script type="text/javascript" src="html5gallery/html5gallery.js"></script>
+		<style>
+			button {
+				font-size: 30px;
+			}
+
+			body {
+				background-color: #e0e0e0;
+			}
+		</style>
+		<script>
+			var selectedImg = '';
+			
+			function getBase64Image(imgSrc) {
+				var img = new Image();
+				img.src = imgSrc;
+				var canvas = document.createElement("canvas");
+				canvas.width = img.width;
+				canvas.height = img.height;
+				var ctx = canvas.getContext("2d");
+				ctx.drawImage(img, 0, 0);
+				var dataURL = canvas.toDataURL("image/png", 0.2);
+				return dataURL;
+			}
+
+			var activityRequest;
+
+			var webActivityHandler = function(request) {
+				activityRequest = request;
+
+				document.getElementById('button').disabled = '';
+				document.getElementById('cancelButton').disabled = '';
+			};
+
+			window.onload = function() {
+				// If the app is being loaded because a inline disposition web activity,
+				// it will came with a pending system message.
+				if (!navigator.mozHasPendingMessage('activity')) {
+					alert('This application is not intend to launch directly.');
+				} else {
+					// Register for activity system message handling.
+					// Do NOT register for message handling on the main app frame.
+					navigator.mozSetMessageHandler('activity', webActivityHandler);
+				}
+			};
+
+			var select = function select() {
+				if (!activityRequest) {
+					alert('There are no any pending activity request.');
+					return;
+				}
+
+				// Return the request
+				activityRequest.postResult({
+					type : 'image/png',
+					text : getBase64Image(selectedImg)
+				});
+				activityRequest = null;
+
+				// close app, currently useless,
+				// see https://bugzilla.mozilla.org/show_bug.cgi?id=789392
+				window.close();
+			};
+
+			var cancel = function cancel() {
+				if (!activityRequest) {
+					alert('There are no any pending activity request.');
+					return;
+				}
+
+				activityRequest.postError('canceled');
+				activityRequest = null;
+
+				// close app, currently useless,
+				// see https://bugzilla.mozilla.org/show_bug.cgi?id=789392
+				window.close();
+			};
+
+			// When the app is being closed or killed, we will cancel the pending
+			// request.
+			document.addEventListener('mozvisibilitychange', function visibility(e) {
+				if (!document.mozHidden || !activityRequest)
+					return;
+
+				activityRequest.postError('canceled');
+				activityRequest = null;
+			});
+
+		</script>
+	</head>
+	<body>
+		<script language="JavaScript">
+			function onSlideChange(data) {
+				selectedImg = data[1];
+			}
+		</script>
+		<div style="display:none;" data-onchange="onSlideChange" class="html5gallery" data-skin="horizontal" data-width="290" data-height="272">
+
+			<!-- Add images to Gallery -->
+			<a href="images/Tulip_small.jpg"><img src="images/Tulip_small.jpg" alt="Tulips"></a>
+			<a href="images/Swan_small.jpg"><img src="images/Swan_small.jpg" alt="Swan on Lake"></a>
+			<a href="images/Big_Buck_Bunny.jpg"><img src="images/Big_Buck_Bunny.jpg" alt="Big Buck Bunny"></a>
+			<a href="images/Colourful_Tulip_small.jpg"><img src="images/Colourful_Tulip_small.jpg" alt="Colourful Tulip"></a>
+			<a href="images/Red_Tulip_small.jpg"><img src="images/Red_Tulip_small.jpg" alt="Red Tulip"></a>
+			<a href="images/Sakura_Tree_small.jpg"><img src="images/Sakura_Tree_small.jpg" alt="Sakura Tree"></a>
+
+		</div>
+		<p style="margin-left: 25px;">
+			<button onclick="select();">
+				Select
+			</button>
+			<button onclick="cancel();">
+				Cancel
+			</button>
+		</p>
+		<div id="ccc" style="width: 100px;height: 100px;"></div>
+	</body>
+
+</html>
