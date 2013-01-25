@@ -2,8 +2,8 @@
   "name": "Receiver",
   "launch_path": "/index.html",
   "developer": {
-    "name": "chyblog",
-    "url": "http://www.chyblog.com"
+    "name": "zwm",
+    "url": "http://zwmsin.github.com"
   },
   "icons": {
     "120": "/style/icons/Receiver.png"
