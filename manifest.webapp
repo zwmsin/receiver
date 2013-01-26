@@ -3,7 +3,7 @@
   "launch_path": "/receiver/index.html",
   "developer": {
     "name": "zwm",
-    "url": "http://zwmsin.github.com"
+    "url": "http://zwmsin.github.com/receiver"
   },
   "icons": {
     "120": "/receiver/style/icons/Receiver.png"
