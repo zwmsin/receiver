@@ -5,7 +5,7 @@
     "url": "http://zwmsin.github.com"
   },
   "icons": {
-    "120": "/style/icons/Receiver.png"
+    "120": "/receiver/style/icons/Receiver.png"
   },
   "permissions": [
     "background",
