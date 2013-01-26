@@ -1,5 +1,6 @@
 {
   "name": "Receiver",
+  "launch_path": "/receiver/index.html",
   "developer": {
     "name": "zwm",
     "url": "http://zwmsin.github.com"
